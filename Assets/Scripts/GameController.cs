@@ -32,6 +32,8 @@ namespace Deforestation
 				OnMachineModeChange?.Invoke(_machineModeOn);
 			}
 		}
+		
+
 		#endregion
 
 		#region Fields
@@ -103,10 +105,12 @@ namespace Deforestation
 				_machine.enabled = true;
 				_machine.WeaponController.enabled = true;
 				_machine.GetComponent<MachineMovement>().enabled = true;
+				_player.enabled = false;
 
 			}
 			else
 			{
+				_player.enabled = true;
 				_machine.enabled = false;
 				_machine.WeaponController.enabled = false;
 				_machine.GetComponent<MachineMovement>().enabled = false;

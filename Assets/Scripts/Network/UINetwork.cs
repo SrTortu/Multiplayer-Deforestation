@@ -13,17 +13,23 @@ namespace Deforestation.Network
 		[SerializeField] private GameObject _connectingPanel;
 		[SerializeField] private Button _exitButton;
 		[SerializeField] private Button _retryButton;
+		[SerializeField] private Button _exitWinButton;
+		[SerializeField] private Button _retryWinButton;
 
 		#endregion
 
 		#region Properties
 		public GameObject EndGamePanel;
+		public GameObject WinGamePanel;
+
 		#endregion
 
 		#region Unity Callbacks	
 		private void Awake()
 		{
 			_exitButton.onClick.AddListener(Exit);
+			_exitWinButton.onClick.AddListener(Exit);
+			_retryWinButton.onClick.AddListener(Retry);
 			_retryButton.onClick.AddListener(Retry);
 		}
 
@@ -36,9 +42,6 @@ namespace Deforestation.Network
 		{
 			Application.Quit();
 		}
-		#endregion
-
-		#region Private Methods
 		#endregion
 
 		#region Public Methods

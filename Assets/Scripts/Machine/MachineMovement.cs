@@ -1,5 +1,7 @@
+using System;
 using Deforestation.Dinosaurus;
 using Deforestation.Recolectables;
+using Unity.VisualScripting;
 using UnityEngine;
 namespace Deforestation.Machine
 {
@@ -18,6 +20,8 @@ namespace Deforestation.Machine
 		#endregion
 
 		#region Properties
+
+		public Action<bool> onMachineMove;
 		#endregion
 
 		#region Unity Callbacks	
@@ -34,7 +38,14 @@ namespace Deforestation.Machine
 				_movementDirection = new Vector3(Input.GetAxis("Vertical"), 0, 0);
 				transform.Rotate(Vector3.up * _speedRotation * Time.deltaTime * Input.GetAxis("Horizontal"));
 				Debug.DrawRay(transform.position, transform.InverseTransformDirection(_movementDirection.normalized) * _speedForce);
-
+				if(Input.GetAxis("Vertical")> 0)
+				{
+					onMachineMove?.Invoke(true);
+				}
+				else
+				{
+					onMachineMove?.Invoke(false);
+				}
 				//Energy
 				if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
 				{
@@ -66,10 +77,10 @@ namespace Deforestation.Machine
 			// Dibuja el rayo en el editor
 			Debug.DrawRay(transform.position, direction * maxDistance, Color.red);
 
-			// Calcula la máscara de la capa correctamente
+			// Calcula la mï¿½scara de la capa correctamente
 			int layerMask = 1 << LayerMask.NameToLayer("Terrain");
 			
-			// Lanza un rayo hacia abajo desde la posición del objeto
+			// Lanza un rayo hacia abajo desde la posiciï¿½n del objeto
 			if (!Physics.Raycast(transform.position, direction, out hit, maxDistance, layerMask))
 				_rb.AddRelativeForce(direction * force);
 		}
@@ -86,7 +97,7 @@ namespace Deforestation.Machine
 		}
 		private void OnCollisionEnter(Collision collision)
 		{
-			//Hacemos daño por contacto a los Stegasaurus
+			//Hacemos daï¿½o por contacto a los Stegasaurus
 			HealthSystem target = collision.gameObject.GetComponent<HealthSystem>();
 			if (target != null)
 			{
@@ -96,15 +107,6 @@ namespace Deforestation.Machine
 
 		#endregion
 
-		#region Private Methods
-		#endregion
-
-		#region Public Methods
-
-		#endregion
-		private void OnDrawGizmos()
-		{
-		}
 	}
 	
 }

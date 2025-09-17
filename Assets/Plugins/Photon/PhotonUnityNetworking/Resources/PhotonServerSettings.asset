@@ -44,6 +44,8 @@ MonoBehaviour:
   - RPC_SpawnPoint
   - RefreshHealth
   - OthersShoot
+  - RPC_EndGame
+  - RPC_PlayerDied
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

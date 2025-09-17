@@ -10,34 +10,39 @@ namespace Deforestation.Network
 {
 
 	public class NetworkGameController : GameController
+
 	{
 
-		#region Public Methods
-		public void InitializePlayer (HealthSystem health, CharacterController player, Inventory inventory, InteractionSystem interaction, Transform playerFollow)
+	public float PlayersOn { get; set; }
+
+	#region Public Methods
+
+	public void InitializePlayer(HealthSystem health, CharacterController player, Inventory inventory,
+		InteractionSystem interaction, Transform playerFollow)
+	{
+		_playerHealth = health;
+		_player = player;
+		_inventory = inventory;
+		_interactionSystem = interaction;
+		_playerFollow = playerFollow;
+	}
+
+	public void InitializeMachine(Transform follow, MachineController machine)
+	{
+		if (_machine != null)
 		{
-			_playerHealth = health;
-			_player = player;
-			_inventory = inventory;
-			_interactionSystem = interaction;
-			_playerFollow = playerFollow;
+			_machine.HealthSystem.OnHealthChanged -= _uiController.UpdateMachineHealth;
 		}
 
-		public void InitializeMachine( Transform follow, MachineController machine)
-		{
-			if (_machine != null)
-			{
-				_machine.HealthSystem.OnHealthChanged -= _uiController.UpdateMachineHealth;
-			}
+		_machineFollow = follow;
+		_machine = machine;
 
-			_machineFollow = follow;
-			_machine = machine;
+		_machine.HealthSystem.OnHealthChanged += _uiController.UpdateMachineHealth;
+		//Para refrescar la UI
+		_machine.HealthSystem.TakeDamage(0);
+	}
 
-			_machine.HealthSystem.OnHealthChanged += _uiController.UpdateMachineHealth;
-			//Para refrescar la UI
-			_machine.HealthSystem.TakeDamage(0);
-		}
-
-		#endregion
+	#endregion
 
 	}
 
